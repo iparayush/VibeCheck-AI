@@ -1,0 +1,7 @@
+{
+  "name": "VibeCheck AI",
+  "description": "An intelligent mood-based music recommender. It uses your camera to detect your emotion via Gemini Vision and curates a perfect playlist for the moment.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

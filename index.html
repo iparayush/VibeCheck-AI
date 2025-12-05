@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VibeCheck AI - Emotion Music Recommender</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+      
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #020617; /* Slate 950 */
+        margin: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      
+      /* Smooth Animation Variables */
+      :root {
+        /* Premium easing curve */
+        --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      /* State Transitions */
+      
+      @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(30px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in-up {
+        animation: fadeInUp 1s var(--ease-out-expo) forwards;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.98); }
+        to { opacity: 1; transform: scale(1); }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.8s var(--ease-out-expo) forwards;
+      }
+
+      @keyframes popIn {
+        0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+        100% { opacity: 1; transform: scale(1) translateY(0); }
+      }
+      .animate-pop-in {
+        animation: popIn 0.9s var(--ease-out-expo) forwards;
+      }
+
+      /* Song Card Specific - Horizontal Slide */
+      @keyframes cardSlideIn {
+        0% { 
+          opacity: 0; 
+          transform: translateX(-40px); /* Pure horizontal slide from left */
+        }
+        100% { 
+          opacity: 1; 
+          transform: translateX(0); 
+        }
+      }
+      .animate-card-entrance {
+        opacity: 0; /* Important for stagger delay */
+        animation: cardSlideIn 0.9s var(--ease-out-expo) forwards;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/client": "https://aistudiocdn.com/react-dom@^19.2.1/client",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.1",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.31.0",
+    "recharts": "https://aistudiocdn.com/recharts@^3.5.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
