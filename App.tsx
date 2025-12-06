@@ -13,6 +13,7 @@ const App: React.FC = () => {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [activeSong, setActiveSong] = useState<Song | null>(null);
+  const [showQR, setShowQR] = useState(false);
 
   const handleCapture = async (imageSrc: string) => {
     setCapturedImage(imageSrc);
@@ -50,18 +51,33 @@ const App: React.FC = () => {
         <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3 group cursor-pointer" onClick={handleReset}>
             <Logo className="w-10 h-10 drop-shadow-[0_0_10px_rgba(168,85,247,0.5)] transition-transform group-hover:scale-110" />
-            <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 group-hover:to-white transition-all">
+            <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 group-hover:to-white transition-all hidden sm:block">
               VibeCheck<span className="text-purple-400">.AI</span>
             </h1>
           </div>
-          {appState === AppState.RESULTS && (
+          
+          <div className="flex items-center gap-3">
+            {/* Mobile QR Button - Hidden on small screens, shown on desktop */}
             <button 
-              onClick={handleReset}
-              className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors animate-fade-in"
+              onClick={() => setShowQR(true)}
+              className="hidden sm:flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-slate-400 hover:text-white bg-slate-900/50 hover:bg-slate-800 rounded-lg border border-slate-800 hover:border-slate-700 transition-all"
+              title="Test on Mobile"
             >
-              Scan Again
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              </svg>
+              <span className="hidden md:inline">Test on Mobile</span>
             </button>
-          )}
+
+            {appState === AppState.RESULTS && (
+              <button 
+                onClick={handleReset}
+                className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors animate-fade-in"
+              >
+                Scan Again
+              </button>
+            )}
+          </div>
         </div>
       </header>
 
@@ -170,6 +186,34 @@ const App: React.FC = () => {
                </div>
             </div>
 
+          </div>
+        )}
+
+        {/* QR Code Modal */}
+        {showQR && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in p-4" onClick={() => setShowQR(false)}>
+            <div className="bg-slate-900 border border-slate-700 p-8 rounded-3xl max-w-sm w-full text-center relative shadow-2xl" onClick={e => e.stopPropagation()}>
+              <button 
+                onClick={() => setShowQR(false)}
+                className="absolute top-4 right-4 text-slate-500 hover:text-white transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              
+              <h3 className="text-xl font-bold text-white mb-2">Test on Mobile</h3>
+              <p className="text-slate-400 text-sm mb-6">Scan this QR code to open the app on your phone's browser.</p>
+              
+              <div className="bg-white p-4 rounded-xl inline-block shadow-inner mb-4">
+                 <img 
+                   src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(window.location.href)}`} 
+                   alt="QR Code" 
+                   className="w-48 h-48"
+                 />
+              </div>
+              <p className="text-xs text-slate-600">Works best on Chrome or Safari</p>
+            </div>
           </div>
         )}
       </main>
